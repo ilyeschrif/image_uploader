@@ -2,6 +2,7 @@ import nextConnect from 'next-connect';
 import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
+import cors from 'cors'; // Add CORS middleware
 
 const upload = multer();
 
@@ -16,6 +17,12 @@ const handler = nextConnect({
     res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
   },
 });
+
+handler.use(cors({
+  origin: '*',
+  methods: ['POST', 'OPTIONS'], 
+  allowedHeaders: ['Content-Type'],
+}));
 
 handler.use(upload.single('source'));
 
